@@ -1,0 +1,26 @@
+{% extends 'app1/base.html' %}
+{% block content %}
+
+<h1> Welcome</h1>
+<table border="1">
+	<tr>
+		<th>Name</th>
+        <th>Password</th>
+		<th>email</th>
+		<th>Phone</th>
+	</tr>
+ 	{% for i in details %}
+    	<tr>
+			<td>{{i.Name}}</td>
+			<td>{{i.Password}}</td>
+			<td>{{i.Email}}</td>
+        	<td>{{i.Phone}}</td>
+			<td><a href="/delete/{{i.id}}">Delete</a></td>
+    	</tr>
+
+
+
+		
+	{% endfor %}
+		
+{% endblock %}
