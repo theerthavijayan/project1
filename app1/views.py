@@ -18,7 +18,5 @@ def signup(request):
 
 def delete(request, id):
      Users.objects.get(id=id).delete()
-     return redirect('/signup')
-
-
+     return redirect('signup')
 
