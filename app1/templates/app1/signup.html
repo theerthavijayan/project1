@@ -11,16 +11,21 @@
 	</tr>
  	{% for i in details %}
     	<tr>
-			<td>{{i.Name}}</td>
+			<td>{{i.Name}}</td>++
 			<td>{{i.Password}}</td>
 			<td>{{i.Email}}</td>
         	<td>{{i.Phone}}</td>
-			<td><a href="/delete/{{i.id}}">Delete</a></td>
+			<!-- <td><a href="/delete/{{i.id}}">Delete</a></td> -->
+			<td><a href=" {% url 'delete' i.id %}">Delete</a></td>
+			<td><a href=" {% url 'update' i.id %}">Update</a></td>
     	</tr>
-
-
-
-		  
 	{% endfor %}
+
+{% if details %}
+<center><button><a href="{% url 'logout' %}"> logout </a></button></center>
+{% else %}
+<center><button><a href="{% url 'login' %}"> login </a></button></center>
+{% endif %}		  
+	
 		
 {% endblock %}

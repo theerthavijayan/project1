@@ -1,0 +1,27 @@
+{% extends 'app1/base.html' %}
+
+{% block title %}
+{% endblock %}
+
+{% block content %}
+
+<h1>SignUp</h1>
+
+<form method="POST">
+{% csrf_token %}
+    <label> Name</label>
+    <input type="text" name="name" id="name"><br><br>
+    <label> Password</label>
+    <input type="password" name="password"><br><br>
+    <label> Email</label>
+    <input type="email" name="email"><br><br>
+    <label> Phone</label>
+    <input type="number" name="phone"><br><br>
+    <label> admn date</label>
+    <input type="date" name="date"><br><br>
+    <button type="submit">Submit</button>
+</form>
+
+
+
+{% endblock  %}

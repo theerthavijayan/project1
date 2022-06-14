@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+</head>
+<body onload="load()">
+    
+    <table border="1" id="table">
+        <tr>
+            <th>id</th>
+            <th>Name</th>
+            <th>Password</th>
+            <th>email</th>
+            <th>Phone</th>
+        </tr>
+    </table>
+
+
+    <script>
+
+        function load(){
+            $.ajax({
+                url:'displaydata',
+                type:'GET',
+                success: function(response){
+                    data = response.data;
+                    console.log(data)
+
+                    $('.tr').remove()
+                    for(i=0; i<=response.data.length; i++){
+                        $("#table").append("<tr class='tr'><td>"+ data[i].id
+                            +"</td><td>" +data[i].name+"</td><td>"+data[i].password
+                                +"</td><td>"+data[i].email+"</td><td>"+data[i].phone
+                                    +"</td><td><button class='btn btn-danger' onclick='delete_(" + response.data[i].id
+                                         + ");'>Delete</button></td><td><button onclick='updatedata("+ response.data[i].id+ ")' >Update</button></td></tr>")
+                    } 
+                }
+            })
+        }
+
+        function delete_(id) {
+            $.ajax({
+                url: 'deletedata',
+                type: 'post',
+                data: {
+                    key_id: id
+                },
+                success: function(response) {
+                    alert(response.message);
+                    load();
+                }
+            });
+        };
+
+
+        function updatedata(sid) {
+            console.log(sid)
+            $.ajax({
+                url:'updatedata',
+                type:'POST',
+                data:{
+                    id : sid,
+                },
+                success: function(response) {
+                    data = response.update[0]
+                    pkid = data['id']
+                    console.log(pkid)
+                    document.getElementById('fname').value = data['name']
+                    document.getElementById('e1').value = data['email']
+                    document.getElementById('p1').value = data['phone']
+                    document.getElementById('p2').value = data['password']
+                }
+            })
+        }
+
+        function update(key) {
+            $.ajax({
+                url:'update',
+                type:'POST',
+                data:{
+                    pkid : key,
+                    name:$('#fname').val(),
+                    password:$('#e1').val(),
+                    email:$('#p1').val(),
+                    phone:$('#p2').val()
+                },
+                success: function(response) {
+                    alert(response.message)
+                    load()
+                }
+            })
+        }
+    </script>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+            </div>
+            <div class="modal-body">
+                <label for="name">Name</label>
+                <input id="fname" type="text" class="form-control">
+                <label for="name">Email</label>
+                <input id="e1" type="text" class="form-control">
+                <label for="name">Phone</label>
+                <input id="p1" type="text" class="form-control">
+                <label for="name">Password</label>
+                <input id="p2" type="text" class="form-control">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick='update(pkid);'>Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>  
+
+</body>
+</html>

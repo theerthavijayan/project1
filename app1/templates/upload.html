@@ -1,0 +1,18 @@
+{% extends 'app1/base.html' %}
+{% block content %}
+
+<form method="POST" action="" enctype="multipart/form-data">
+{% csrf_token %}
+  
+    <input type="file" name="doc" value=""><br><br>
+
+    <button type="submit">Update</button>
+</form>
+
+{% if uploaded_file_url %}
+    <p>File uploaded at: <a href="{{ upload_file_url }}">{{ uploaded_file_url }}</a></p>
+  {% endif %}
+
+  <p><a href="{% url 'home' %}">Return to home</a></p>
+
+{% endblock %}

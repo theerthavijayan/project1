@@ -1,4 +1,17 @@
-{% extends 'app1/base.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  {% extends 'app1/base.html' %}
+
+<!-- {% block title %}
+{% endblock %} -->
+
 {% block content %}
 
 <h1>SignUp</h1>
@@ -6,7 +19,7 @@
 <form method="POST">
 {% csrf_token %}
     <label> Name</label>
-    <input type="text" name="name"><br><br>
+    <input type="text" name="name" id="name"><br><br>
     <label> Password</label>
     <input type="password" name="password"><br><br>
     <label> Email</label>
@@ -16,4 +29,51 @@
     <button type="submit">Submit</button>
 </form>
 
+<script>
+    $("#name").change(function(){
+       var name=$(this).val();
+       if(name!=""){
+         $.ajax({
+           url:"{% url 'check_name_exist' %}",
+           type:'POST',
+           data:{name:name},
+           success:(function(response){
+            console.log(response);
+           if(response.name){
+               
+             $(".name_error").remove();
+             $("<span class='name_error' style='padding: 5px;color: red;font-weight: bold;'>Username Not Available</span>").insertAfter("#name");
+            }
+           else{
+             $(".name_error").remove();
+             $("<span class='name_error' style='padding: 5px;color: green;font-weight: bold;'>>Username  Available</span>").insertAfter("#name");
+            }
+        })
+        
+       }
+      )
+    }})
+//          .success(function(response){
+//            console.log(response);
+//            if(response=="True"){
+//              $(".name_error").remove();
+//              $("<span class='name_error' style='padding: 5px;color: red;font-weight: bold;'>Username Not Available</span>").insertAfter("#name");
+// }
+//            else{
+//              $(".name_error").remove();
+//              $("<span class='name_error' style='padding: 5px;color: green;font-weight: bold;'>>Username  Available</span>").insertAfter("#name");
+// }
+//          })
+//          .fail(function(){
+//            console.log("failed");
+//          })
+//        }
+//        else{
+//          $(".name_error").remove();
+//        }
+// });
+</script>
+
 {% endblock  %}
+</body>
+</html>
