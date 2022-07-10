@@ -1,6 +1,5 @@
-from tokenize import Name
 from django.shortcuts import render
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from ajax.models import AjaxCrud
 from django.views.decorators.csrf import csrf_exempt
 
@@ -40,7 +39,7 @@ def updatedata(request):
     print(id)
     updata = AjaxCrud.objects.get(id = id)
     updata1 = [{'id':updata.id, 'name':updata.Name, 'password':updata.Password, 'email':updata.Email, 'phone':updata.Phone}]
-    print(updata1)
+    print(updata1) 
     return JsonResponse({'update':updata1})
 
 @csrf_exempt
@@ -53,3 +52,13 @@ def update(request):
     AjaxCrud.objects.filter(id = id).update(Name=name, Password=password,Email=email,Phone=phone)
     print(name)
     return JsonResponse({'message':'Data updated'})
+
+
+@csrf_exempt
+def check_user():
+    name = request.POST['name']
+    user = AjaxCrud.objects.filter(Name = name).exists()
+    if user:
+        return HttpResponse(True)
+    else:
+        return HttpResponse(False)

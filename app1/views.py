@@ -1,6 +1,3 @@
-from pickle import TRUE
-from pprint import pprint
-from pydoc import doc
 from django.shortcuts import redirect, render
 from django.core.files.storage import FileSystemStorage
 from django.http import HttpResponse
@@ -13,6 +10,8 @@ from app1.serializers import UserSerializer
 from . models import *
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from django.urls import reverse
+from . import urls
 
 
 
@@ -25,6 +24,9 @@ def home(request):
           details=Users(Name=name, Password=password, Email=email, Phone=phone)
           details.save()
           return redirect('signup/')
+     url = signup
+     print(url)
+     print(reverse(url))
      return render(request, 'app1/home.html')
      # return JsonResponse({'message':'Inserted'})
   
@@ -86,10 +88,10 @@ def upload(request):
      
      return render(request, 'upload.html')
 
- 
+@csrf_exempt
 def check_name_exist(request):
     name=request.POST.get("name")
-    user_obj=Users.objects.filter(name=name).exists()
+    user_obj=Users.objects.filter(Name=name).exists()
     if user_obj:
         return HttpResponse(True)
     else:  
@@ -117,7 +119,7 @@ def api_exFn(request, id=0):
           return JsonResponse({'message': 'data deleted successfully..'})
      elif request.method=='PUT':
           user_data=JSONParser().parse(request)
-          pprint(user_data)
+          print(user_data)
           User=Users.objects.get(id=user_data['id'])
           user_serializer = UserSerializer(User,user_data)
           if user_serializer.is_valid():
@@ -143,6 +145,8 @@ def studata(request):
 
      return render(request, 'app1/studata.html')
 
-def img(request):
-
-     return render
+@api_view(['GET'])
+def index(request):
+     msg = "hello"
+     return Response(msg)
+     

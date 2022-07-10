@@ -16,4 +16,5 @@ urlpatterns = [
    path('api_ex/<int:id>', views.api_exFn,name='api_ex'), #delete data by id
 
    path('stu',views.StuReg, name="stureg"),
+   path('index/',views.index, name="index"),
 ]

@@ -42,6 +42,32 @@
             }
         })
     })
+
+// username available or not
+    $('#name').change(function(){
+        var name = $(this).val()
+        if(name != ""){
+            $.ajax({
+                url:'check',
+                type:'POST',
+                data:{
+                    name : name
+                },
+                success:function(response){
+                    console.log(response.name)
+                    if(response.name){
+                        $('.sp').remove()
+                        $("<span class='sp' style='color:green'>Username available</span> ").insertAfter("#name");
+                    }
+                    else{
+                        $('.sp').remove()
+                        $("<span class='sp' style='color:red'>Username not available</span> ").insertAfter("#name");
+                    }
+                    
+                }
+            })
+        }
+    })
 </script>
 
 
