@@ -27,8 +27,20 @@ def delete(request,id):
     return Response('deleted')
 
 @api_view(['PUT'])
-def view(request, id):
+def view(request,id):
     blog = ApiCrud.objects.get(id = id)
+    print(blog)
     data = [{'id': blog.id, 'name': blog.name,'address':blog.address,'contact':blog.contact,'gender':blog.gender,'email':blog.email}]
     return Response({'user':data})
+
+
+@api_view(['GET'])
+def addnum(request):
+    n1 = request.GET.get('n1')
+    n2 = request.GET.get('n2')
+
+    print(n1)
+    total =  int(n1)+int(n2)
+    return Response(total)
+
 
